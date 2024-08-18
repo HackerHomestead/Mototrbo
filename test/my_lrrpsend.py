@@ -2,10 +2,10 @@
 import socket
 import binascii
 
+OUTBOUND_INTERFACE = b'enx0a003ec8e4e3' 
 
-UDP_IP = "192.168.11.1"
-UDP_IP = "12.115.86.12"
-UDP_IP = "12.115.86.232"
+# Todo allow conversion between radioid and ip 
+UDP_IP = "12.0.35.130"
 UDP_PORT = 4001
 
 # command 0xf disabled lrrp
@@ -20,5 +20,7 @@ print(bytearray.fromhex('1409220541424344453F02'))
 print(binascii.b2a_hex( b'\x14\t"\x05ABCDE?\x02'))
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
+# Attemping to bind to interface, i.e. use this network interface
+sock.setsockopt(socket.SOL_SOCKET, 25, OUTBOUND_INTERFACE)
 sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 sock.close()

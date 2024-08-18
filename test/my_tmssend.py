@@ -1,6 +1,7 @@
-# nc -ul 127.0.0.1 5005
 import socket
 
+
+OUTBOUND_INTERFACE = b'enx0a003ec8e4e3' 
 UDP_IP = "12.0.35.130" # Radio ID 9090
 UDP_PORT = 4007
 
@@ -13,7 +14,7 @@ print ("message:", MESSAGE)
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
 
 # Attemping to bind to interface, i.e. use this network interface
-sock.setsockopt(socket.SOL_SOCKET, 25, b'enx0a003ea7511f')
+sock.setsockopt(socket.SOL_SOCKET, 25, OUTBOUND_INTERFACE)
 
 # Send the Packet
 sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
