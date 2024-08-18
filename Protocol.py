@@ -25,7 +25,8 @@ class TMS(Protocol):
 		if buffer :
 			self.header = self.buffer[:6]
 			self.message = self.buffer[6:]
-	def encode(self, msg):
+	
+    def encode(self, msg):
 		return(msg.encode('utf-16').replace(b'\xff\xfe', b'\x00'))
 
 	def decode(self, msg = None):
@@ -33,11 +34,14 @@ class TMS(Protocol):
 			return( msg.replace(b'\x00', b'\xff\xfe', 1).decode('utf-16') )
 		else:
 			return( self.message.decode('utf-16') )
-	def sequence(self):
+	
+    def sequence(self):
 		return(self.header[4:5])
-	def lenght(self):
+	
+    def lenght(self):
 		return (len(self.message))
-	def sendtoip(self, ipaddr, sms):
+	
+    def sendtoip(self, ipaddr, sms):
 		import socket
 		sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
 		message = self.encode(sms)
@@ -46,10 +50,12 @@ class TMS(Protocol):
 		protocol = b'\x00'+ bytes([length])+ b'\xe0\x00\x88\x04\r\x00\n' + message
 		#print(protocol)		
 		sock.sendto(protocol, (ipaddr, self.port))
-	def sendtoid(self, cai, radioid, sms):
+	
+    def sendtoid(self, cai, radioid, sms):
 		ipaddr = self.id2ip(cai, radioid)
 		self.sendtoip(ipaddr, sms)
-	def debug(self):
+
+    def debug(self):
 		protocol = b'\x00\x14\xe0\x00\x88\x04\r\x00\n\x00B\x00G\x007\x00N\x00Y\x00T\x00'
 		tms = TMS(protocol)
 		

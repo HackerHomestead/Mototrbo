@@ -13,8 +13,9 @@ try:
 except ImportError as err:
 	print("Error: %s" %(err))    
 
-class Mototrbo() :
-	def __init__(self):
+class Mototrbo():
+
+    def __init__(self):
 		usage = "usage: %prog [options] "
 		self.parser = OptionParser(usage)
 
@@ -49,17 +50,18 @@ class Mototrbo() :
 		group.add_option('-p','--ping', dest="ping", metavar="", help='ping ip address', default="")
 		group.add_option('-o','--online', dest="online", metavar="", help="Check radio's status.", default="")
 		self.parser.add_option_group(group)
-		
-		
-		
+				
 		#self.parser.add_option('','--logfile', help='logs file.', default='backup.log')
 		pass
-	def tms(self):
-		print('--------')
-	def debug(self):
+	
+    def tms(self):
+        print('--------')
+	
+    def debug(self):
 		print(unpack('B',b'\x14'))
 		print(unpack('B',b'\x18'))
-	def usage(self):
+
+    def usage(self):
 		self.parser.print_help()
 		lines = [
 			"\n  Example: ",
@@ -73,7 +75,8 @@ class Mototrbo() :
 		for line in lines:
 			print(line)
 		print("\n  Homepage: http://netkiller.github.io\tAuthor: Neo <netkiller@msn.com>")		
-	def main(self):
+	
+    def main(self):
 		(self.options, args) = self.parser.parse_args()
 		#print("===================================")
 		#print(self.options, args)

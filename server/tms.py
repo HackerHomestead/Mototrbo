@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 		print('Starting TMS Listener...')
 		print("Child Process: PID# %s" % os.getpid() )
-		HOST, PORT = "192.168.11.2", 4007
+		HOST, PORT = "192.168.10.2", 4007
 		tms = socketserver.UDPServer((HOST, PORT), TMSHandler)
 		#tms.daemon = True
 		tms.serve_forever()
