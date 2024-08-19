@@ -6,6 +6,7 @@ Mototrbo ARS, TMS
 Known Service Ports
 -------------------
 
+```
 Not all of these ports are relevant but they should still be documented here. Location, ARS, TMS, and Battery Managment are the most relevant
 
 Protocol    Port (Range)    Used for                            Used where
@@ -31,3 +32,4 @@ UDP         50111           Call Monitoring                     Between sites; C
 UDP         51919           Trunking Controller Intermediary    Between sites; CMSS and dispatch
 UDP         58041           IMPRES Fleet Management             Between MNIS DG and sites
 UDP         60000 - 65535   Inter/Intrasite traffic             Between sites and CMSS
+```
