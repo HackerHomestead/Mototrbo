@@ -1,8 +1,9 @@
 import socketserver
 import datetime
 import binascii
+import socket
 
-OUTBOUND_INTERFACE = b'enx0a003e6acab4'
+OUTBOUND_INTERFACE = b'enx0a003ed4b8e5'
 
 
 class MyUDPHandler(socketserver.BaseRequestHandler):
@@ -15,7 +16,7 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
         data = self.request[0].strip()
-        socket = self.request[1]
+        #socket = self.request[1]
 
         ct = datetime.datetime.now()
 
@@ -29,8 +30,16 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
         # Except arent we just echoing back? 
 
         # Disabled to see what happens
-        ACK = b'\x00\x01\x3f\x00\x00'
-        socket.sendto(ACK, self.client_address)
+        ACK = b'\x00\x02\xbf\x01' #  1min
+        ACK = b'\x00\x02\xbf\x0a' # 10min
+        ACK = b'\x00\x02\xbf\x0f' # 15min
+        ACK = b'\x00\x02\xbf\x1e' # 30min
+        ACK = b'\x00\x02\xbf\x3c' # 60min
+        # Should I be specificying the bytes(4) part?
+        # Like this socket.sendto(bytes(4), (dest, port))
+        tx_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
+        tx_sock.setsockopt(socket.SOL_SOCKET, 25, OUTBOUND_INTERFACE)
+        tx_sock.sendto(ACK, self.client_address)
         print("\tSent ACK {} to {}".format(binascii.hexlify(ACK), self.client_address))
 
 if __name__ == "__main__":
