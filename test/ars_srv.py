@@ -40,13 +40,13 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
         # Note that the last byte is min to refresh (check back in)
         # In theory the radio will only attemp to "register" again at a random point in between
         #ACK = b'\x00\x02\xbf\x01' #  1min
-        ACK = b'\x00\x02\xbf\x05' #  5min
+        #ACK = b'\x00\x02\xbf\x05' #  5min
         #ACK = b'\x00\x02\xbf\x0a' # 10min
         #ACK = b'\x00\x02\xbf\x0f' # 15min
-        #ACK = b'\x00\x02\xbf\x1e' # 30min
+        ACK = b'\x00\x02\xbf\x1e' # 30min
         #ACK = b'\x00\x02\xbf\x3c' # 60min
-        # Should I be specificying the bytes(4) part?
-        # Like this socket.sendto(bytes(4), (dest, port))
+
+        # Going to open another socket, this is UDP we have async conversations
         tx_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
         tx_sock.setsockopt(socket.SOL_SOCKET, 25, OUTBOUND_INTERFACE)
         tx_sock.sendto(ACK, self.client_address)
