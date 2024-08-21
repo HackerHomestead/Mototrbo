@@ -3,6 +3,12 @@ Mototrbo
 
 Mototrbo ARS, TMS
 
+TODO
+-----
+1. While testing the orginal code, I am using the prefix 'my_' for indpendant versions of the orginal tests, I will fold these in later on
+2. One improvement I have made is to bind to a specific interface, while this assists with not having to modify routing, it does mean that we have to keep track of the interface, and if you only have one programming cable it seems that everytime its re-connected the interface changes (I know this is a linux thing).
+3. Much more
+
 Known Service Ports
 -------------------
 
