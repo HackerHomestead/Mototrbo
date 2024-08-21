@@ -1,9 +1,12 @@
+# For more information on ARS https://cwh050.blogspot.com/2020/03/mototrbo-ars.html
+
 import socketserver
 import datetime
 import binascii
 import socket
 
 OUTBOUND_INTERFACE = b'enx0a003ed4b8e5'
+OUTBOUND_INTERFACE = b'enx0a003e2044dd'
 
 
 class MyUDPHandler(socketserver.BaseRequestHandler):
@@ -22,19 +25,26 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
 
         print("{}\t{}\twrote: {}\t({})".format( ct, self.client_address[0], data,binascii.hexlify(data)))
 
-        ## Not sure why these are here but I suspect that they are part of an ack
-        #.decode(encoding='UTF-8')
-        #socket.sendto(data.upper(), self.client_address)
+        # Check if its a regestration or DEregesteration request
+        # REGESTRATION b'\x00\t\xf0 \x044040\x00\x00'   (b'0009f02004343034300000'
+        
+        # DERegestration (PowerOff)
+        #    12.0.19.186     wrote: b'\x00\x011'     (b'000131')
+        
+        # ACK to ARS Query 00 01 74  from Control
+        #   12.0.19.186     wrote: b'\x00\x01?'     (b'00013f')
+        
+        # HEADER | RADIOID | ????
 
-        # Let's give it a go
-        # Except arent we just echoing back? 
-
-        # Disabled to see what happens
-        ACK = b'\x00\x02\xbf\x01' #  1min
-        ACK = b'\x00\x02\xbf\x0a' # 10min
-        ACK = b'\x00\x02\xbf\x0f' # 15min
-        ACK = b'\x00\x02\xbf\x1e' # 30min
-        ACK = b'\x00\x02\xbf\x3c' # 60min
+        # The following are ACK statements to reply to the subscriber radio with
+        # Note that the last byte is min to refresh (check back in)
+        # In theory the radio will only attemp to "register" again at a random point in between
+        #ACK = b'\x00\x02\xbf\x01' #  1min
+        ACK = b'\x00\x02\xbf\x05' #  5min
+        #ACK = b'\x00\x02\xbf\x0a' # 10min
+        #ACK = b'\x00\x02\xbf\x0f' # 15min
+        #ACK = b'\x00\x02\xbf\x1e' # 30min
+        #ACK = b'\x00\x02\xbf\x3c' # 60min
         # Should I be specificying the bytes(4) part?
         # Like this socket.sendto(bytes(4), (dest, port))
         tx_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
